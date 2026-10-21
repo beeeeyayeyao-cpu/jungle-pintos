@@ -259,7 +259,7 @@ int
 filesize (int fd){
 	if(fd < 2 || fd >= FILE_MAX) return -1;
 	struct thread *t = thread_current();
-	struct file *f = t->fdt[fd];
+	struct file *f = t->fdt->file[fd];
 	int size = -1;
 	if(f != NULL){
 		size = (int)file_length(f);
