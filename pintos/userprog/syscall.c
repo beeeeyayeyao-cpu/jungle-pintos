@@ -244,8 +244,8 @@ open (const char *file){
 
 	/*빈 0,1은 쓰니까 스킵*/
 	for(int i = 2; i<FILE_MAX; i++){
-		if(t->fdt[i] == NULL){
-			t->fdt[i] = f;
+		if(t->fdt->file[i] == NULL){
+			t->fdt->file[i] = f;
 			return i;
 		}
 	}
@@ -290,9 +290,9 @@ read (int fd, void *buffer, unsigned size){
 	else if(fd >= 2)
 	{
 		#ifdef USERPROG
-			if (t->fdt[fd] == NULL) return -1;	
+			if (t->fdt->file[fd] == NULL) return -1;	
 			lock_acquire(&file_lock);
-			int len = file_read(t->fdt[fd], buffer, size);
+			int len = file_read(t->fdt->file[fd], buffer, size);
 			lock_release(&file_lock);
 			return len;
 		#endif
@@ -327,7 +327,7 @@ void
 seek (int fd, unsigned position){
 	if(fd < 2 || fd >= FILE_MAX) return;
 	struct thread *t = thread_current();
-	struct file *f = t->fdt[fd];
+	struct file *f = t->fdt->file[fd];
 	if(f != NULL) file_seek(f, (off_t)position);
 }
 
@@ -336,7 +336,7 @@ tell (int fd){
 	if(fd < 2 || fd >= FILE_MAX) return (unsigned)-1;
 	struct thread *t = thread_current();
 
-	struct file *f = t->fdt[fd];
+	struct file *f = t->fdt->file[fd];
 	if(f != NULL){
 		return (unsigned)file_tell(f);
 	}
@@ -348,10 +348,10 @@ close (int fd){
 	if(fd < 2 || fd >= FILE_MAX) return;
 	struct thread *t = thread_current();
 
-	struct file *f = t->fdt[fd];
+	struct file *f = t->fdt->file[fd];
 	if(f != NULL){
 		file_close(f);
-		t->fdt[fd] = NULL;
+		t->fdt->file[fd] = NULL;
 	}
 }
 
@@ -387,7 +387,7 @@ check_buffer (const void *buffer, unsigned size) {
 
 static struct file *
 fd_to_file (int fd) {
-	return thread_current ()->fdt[fd]; // fdt-> 파일디스크립터 테이블이고 fd번호를 인덱스로 file 구조체를 찾는 부분
+	return thread_current ()->fdt->file[fd]; // fdt-> 파일디스크립터 테이블이고 fd번호를 인덱스로 file 구조체를 찾는 부분
 }
 
 static bool
