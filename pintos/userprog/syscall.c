@@ -232,6 +232,7 @@ remove (const char *file){
 int
 open (const char *file){
 	struct thread *t = thread_current();
+
 	if(t->fdt == NULL) return -1; /*fdt 초기화 안됨*/
 
 	if(check_file(file)){
@@ -242,8 +243,11 @@ open (const char *file){
 	struct file *f = filesys_open(file);
 	if(f == NULL) return -1;
 
+	t->fdt = malloc(sizeof(struct file_descriptor) * FILE_MAX);
+
 	/*빈 0,1은 쓰니까 스킵*/
 	for(int i = 2; i<FILE_MAX; i++){
+		t->fdt->file = malloc()
 		if(t->fdt->file[i] == NULL){
 			t->fdt->file[i] = f;
 			return i;
