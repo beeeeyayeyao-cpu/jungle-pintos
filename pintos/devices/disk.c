@@ -8,6 +8,10 @@
 #include "threads/interrupt.h"
 #include "threads/synch.h"
 
+/*
+블록 디바이스로의 섹터 기반 읽기/쓰기를 제공한다. 이 인터페이스는 블록 디바이스로 스왑 파티션에 접근할 때 사용하게 될 것이다.
+*/
+
 /* The code in this file is an interface to an ATA (IDE)
    controller.  It attempts to comply to [ATA-3]. */
 

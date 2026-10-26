@@ -4,6 +4,10 @@
 #include <inttypes.h>
 #include <stdint.h>
 
+/*
+블록 디바이스로의 섹터 기반 읽기/쓰기를 제공한다. 이 인터페이스는 블록 디바이스로 스왑 파티션에 접근할 때 사용하게 될 것이다.
+*/
+
 /* Size of a disk sector in bytes. */
 #define DISK_SECTOR_SIZE 512
 

@@ -3,6 +3,8 @@
 #include "filesys/file.h"
 #include "vm/vm.h"
 
+//file-backed page를 위한 기능을 제공한다 = VM_FILE
+
 struct page;
 enum vm_type;
 

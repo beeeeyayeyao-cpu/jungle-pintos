@@ -2,6 +2,8 @@
 #define VM_UNINIT_H
 #include "vm/vm.h"
 
+ //초기화 되지 않은 페이지들을 위한 기능을 제공함 = UNINIT
+
 struct page;
 enum vm_type;
 

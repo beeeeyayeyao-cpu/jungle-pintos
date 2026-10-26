@@ -8,6 +8,8 @@
  * function.
  * */
 
+ //초기화 되지 않은 페이지들을 위한 기능을 제공함 = UNINIT
+
 #include "vm/vm.h"
 #include "vm/uninit.h"
 
@@ -60,6 +62,11 @@ uninit_initialize (struct page *page, void *kva) {
  * to other page objects, it is possible to have uninit pages when the process
  * exit, which are never referenced during the execution.
  * PAGE will be freed by the caller. */
+
+/*
+	uninit_page가 점유하고 있는 자원을 해제한다. 대부분의 페이지는 다른 페이지 객체로 전환되지만, 프로세스가 종료될 때까지 전혀 참조되지 않은 uninit 페이지가 남아 있을 수 
+	현재는 익명 페이지(anonymous page)만 처리하면 됩니다. 
+*/
 static void
 uninit_destroy (struct page *page) {
 	struct uninit_page *uninit UNUSED = &page->uninit;

@@ -2,6 +2,8 @@
 
 #include "vm/vm.h"
 
+//file-backed page를 위한 기능을 제공한다 = VM_FILE
+
 static bool file_backed_swap_in (struct page *page, void *kva);
 static bool file_backed_swap_out (struct page *page);
 static void file_backed_destroy (struct page *page);

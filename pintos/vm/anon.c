@@ -3,6 +3,8 @@
 #include "vm/vm.h"
 #include "devices/disk.h"
 
+//anonymous page를 위한 기능을 제공함 = VM_ANON
+
 /* DO NOT MODIFY BELOW LINE */
 static struct disk *swap_disk;
 static bool anon_swap_in (struct page *page, void *kva);
@@ -25,6 +27,7 @@ vm_anon_init (void) {
 }
 
 /* Initialize the file mapping */
+//익명 페이지 서브시스템을 초기화합니다. 이 함수 내에서 익명 페이지와 관련된 모든 사항을 설정할 수 있습니다.
 bool
 anon_initializer (struct page *page, enum vm_type type, void *kva) {
 	/* Set up the handler */
@@ -46,6 +49,10 @@ anon_swap_out (struct page *page) {
 }
 
 /* Destroy the anonymous page. PAGE will be freed by the caller. */
+/*
+	익명 페이지가 점유하고 있던 자원을 해제합니다. 
+	페이지 구조체(page struct)를 명시적으로 해제할 필요는 없으며, 이를 호출한 측에서 처리해야 합니다.
+*/
 static void
 anon_destroy (struct page *page) {
 	struct anon_page *anon_page = &page->anon;

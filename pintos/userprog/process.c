@@ -897,6 +897,7 @@ install_page (void *upage, void *kpage, bool writable) {
 /* From here, codes will be used after project 3.
  * If you want to implement the function for only project 2, implement it on the
  * upper block. */
+//세그먼트 지연 로딩
 
 static bool
 lazy_load_segment (struct page *page, void *aux) {
@@ -919,6 +920,7 @@ lazy_load_segment (struct page *page, void *aux) {
  *
  * Return true if successful, false if a memory allocation error
  * or disk read error occurs. */
+//루프가 반복될 때마다 `vm_alloc_page_with_initializer`를 호출하여 보류 중인(pending) 페이지 객체를 생성합니다. 
 static bool
 load_segment (struct file *file, off_t ofs, uint8_t *upage,
 		uint32_t read_bytes, uint32_t zero_bytes, bool writable) {
@@ -948,6 +950,14 @@ load_segment (struct file *file, off_t ofs, uint8_t *upage,
 }
 
 /* Create a PAGE of stack at the USER_STACK. Return true on success. */
+/*
+	함수를 수정하여, 스택 할당이 새로운 메모리 관리 시스템에 맞게 이루어지도록 해야 합니다.
+	첫 번째 스택 페이지는 지연 할당(lazy allocation)할 필요가 없습니다. 
+	프로그램 로드 시점에 명령줄 인자(command line arguments)를 사용하여 이 페이지를 즉시 할당하고 초기화할 수 있으며, 
+	페이지 폴트가 발생할 때까지 기다릴 필요는 없습니다. 
+	또한, 스택 페이지를 식별할 수 있는 방법이 필요할 수 있는데, 
+	이때 `vm/vm.h`에 정의된 `vm_type` 내의 보조 마커(예: `VM_MARKER_0`)를 사용하여 해당 페이지를 표시할 수 있습니다.
+*/
 static bool
 setup_stack (struct intr_frame *if_) {
 	bool success = false;

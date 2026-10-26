@@ -1,6 +1,11 @@
 /* inspect.c: Testing utility for VM. */
 /* DO NOT MODIFY THIS FILE. */
 
+/*
+	채점을 위한 메모리 검사 기능이 포함되어 있다.
+	이 파일은 손대지 말자.
+*/
+
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 #include "threads/mmu.h"

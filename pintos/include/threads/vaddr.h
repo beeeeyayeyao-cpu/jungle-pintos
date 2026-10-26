@@ -32,7 +32,7 @@
 #define pg_round_down(va) (void *) ((uint64_t) (va) & ~PGMASK)
 
 /* Kernel virtual address start */
-#define KERN_BASE LOADER_KERN_BASE
+#define KERN_BASE LOADER_KERN_BASE //커널 베이스
 
 /* User stack start */
 #define USER_STACK 0x47480000
