@@ -48,13 +48,14 @@ static struct frame *vm_evict_frame (void);
 	이 페이지의 `swap_in` 핸들러는 타입에 맞춰 페이지를 자동으로 초기화하고, 주어진 `AUX`를 인자로 `INIT` 함수를 호출합니다. 
 	페이지 구조체(`page struct`)를 생성한 후에는 이를 해당 프로세스의 spt에 삽입하십시오. 이때 `vm.h`에 정의된 `VM_TYPE` 매크로를 활용하면 편리합니다.
 
-	lazy_load_segment 함수는 실행 파일의 페이지를 초기화하는 역할을 하며, 페이지 폴트(page fault)가 발생할 때 호출됩니다.
+	
+	t 함수는 실행 파일의 페이지를 초기화하는 역할을 하며, 페이지 폴트(page fault)가 발생할 때 호출됩니다.
 	이 함수는 `page` 구조체와 `aux`를 인자로 받는데, 여기서 `aux`는 `load_segment`에서 설정한 정보입니다. 
 	이 정보를 활용하여 세그먼트를 읽어올 파일을 찾고, 최종적으로 해당 세그먼트를 메모리로 읽어와야 합니다.
 */
 bool
-vm_alloc_page_with_initializer (enum vm_type type, void *upage, bool writable,
-		vm_initializer *init, void *aux) {
+vm_alloc_page_with_initializer (enum vm_type type, void *upage, bool writable, 
+	vm_initializer *init, void *aux) {
 
 	ASSERT (VM_TYPE(type) != VM_UNINIT)
 
@@ -73,7 +74,7 @@ err:
 }
 
 /* Find VA from spt and return page. On error, return NULL. */
-//struct page제공된 추가 페이지 표에서 va에 해당하는 값을 찾으십시오 . 찾지 못하면 NULL을 반환합니다.
+//struct page제공된 추가 페이지 표에서 va에 해당하는 값을 찾으십시오. 찾지 못하면 NULL을 반환합니다.
 struct page *
 spt_find_page (struct supplemental_page_table *spt UNUSED, void *va UNUSED) {
 	struct page *page = NULL;
@@ -104,10 +105,6 @@ spt_remove_page (struct supplemental_page_table *spt, struct page *page) {
 
 /* Get the struct frame, that will be evicted. */
 /*
-	page.page() 를 호출하여 사용자 풀에서 새 물리적 페이지를 가져옵니다 palloc_get_page. 
-	사용자 풀에서 페이지를 성공적으로 가져오면 프레임을 할당하고 멤버를 초기화한 후 반환합니다. 
-	`page.page()`를 구현한 후에는 vm_get_frame 모든 사용자 공간 페이지(PALLOC_USER)를 이 함수를 통해 할당해야 합니다. 
-	페이지 할당 실패 시 스왑 아웃 처리는 현재로서는 필요하지 않으며, 해당 경우를 `swapout`으로 표시하기만 하면 됩니다 PANIC ("todo") .
 */
 static struct frame *
 vm_get_victim (void) {
@@ -174,7 +171,7 @@ vm_try_handle_fault (struct intr_frame *f UNUSED, void *addr UNUSED, bool user U
 	struct page *page = NULL;
 	/* TODO: Validate the fault */
 	/* TODO: Your code goes here */
-
+	pml4();
 	return vm_do_claim_page (page);
 }
 
